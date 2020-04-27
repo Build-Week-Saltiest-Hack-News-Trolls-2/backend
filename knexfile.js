@@ -2,10 +2,8 @@
 
 module.exports = {
 	development: {
-		client: "sqlite3",
-		connection: {
-			filename: "./data/shnt.db3",
-		},
+		client: "pg",
+		connection: "postgres://localhost/shnt",
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./data/migrations",
