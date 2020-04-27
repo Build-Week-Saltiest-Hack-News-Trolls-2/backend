@@ -1,8 +1,10 @@
 # Backend
 
-Deployed at:
+Deployed at: https://shnt.herokuapp.com/
 
-## User Schema
+## Schemas
+
+**Users**
 
 ```js
 {
@@ -20,8 +22,20 @@ Deployed at:
 
   - Takes a user object to add to database
   - Returns id and username of newly created user
+  - Returns 400 error if username or password is not included
 
 - `POST /api/auth/login`:
   - Takes a user object
   - Returns a JWT token if authenticated
   - Returns 401 error if not authenticated
+
+**Users**
+
+All user routes require valid JWT in auth header
+
+- `GET /api/users`:
+  - Returns an array of user objects containing id and username
+
+**Comments**
+
+All comments routes require valid JWT in auth header
