@@ -9,7 +9,7 @@ module.exports = {
   remove,
 };
 
-//works
+
 function get() {
   return db('users');
 };
@@ -19,7 +19,7 @@ function findBy( filter ) {
     .where ( filter  );
 }
 
-//works
+
 function add(user) {
   return db('users')
     .insert(user)

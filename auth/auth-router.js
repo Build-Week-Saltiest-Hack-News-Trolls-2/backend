@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
 const Users = require('./auth-model');
-const protectMe = require('./authenticate-middleware');
+const jwt = require('jsonwebtoken')
+const { jwtSecret } = require('./secrets')
 
-//works
+
 router.get('/', (req, res) => {
   Users.get()
   .then(users => {
@@ -16,8 +17,8 @@ router.get('/', (req, res) => {
 })
 
 
-//works
-router.post('/register', (req, res) => {
+
+router.post('/register', validate, (req, res) => {
     let user = req.body; 
     const rounds = process.env.HASH_ROUNDS || 12;
     const hash = bcrypt.hashSync(user.password, rounds);
@@ -28,28 +29,48 @@ router.post('/register', (req, res) => {
       })
       .catch(error => {
         console.log(error);
-        res.status(500).json({ errorMessage: error.message });
+        res.status(500).json({ message: 'uh oh' });
       });
   });
 
-  //working
-router.post('/login', (req, res) => {
+ 
+router.post('/login', validate, (req, res) => {
     let { username, password } = req.body;
     Users.findBy({ username })
       .first()
       .then((user) => {
         if (user && bcrypt.compareSync(password, user.password)) {
-          req.session.loggedIn = true;
-          res.status(200).json({ message: "Logged In!" });
+            const token = makeToken(user)
+          res.status(200).json({ user, token});
         } 
-        // else {
-        //   res.status(401).json({ message: "You shall not pass!" });
-        // }
+        else {
+          res.status(401).json({ message: "Invalid login" });
+        }
       })
       .catch(error => {
         console.log(error);
-        res.status(500).json({ errorMessage: error.message });
+        res.status(500).json({ message: 'uh oh' });
       });
   });
+
+  function validate(req, res, next) {
+    if(req.body.password && req.body.username){
+      next()
+    }else{
+      res.status(500).json({message: "enter a username and password"})
+    }
+  }
+
+  function makeToken (user) {
+    const payload = {
+      id: user.id,
+      username: user.username,
+      user_type: user.user_type
+    }
+    const options = {
+      expiresIn: '1h'
+    }
+    return jwt.sign(payload, jwtSecret, options)
+  }
 
 module.exports = router;

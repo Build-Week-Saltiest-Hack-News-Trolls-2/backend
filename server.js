@@ -16,4 +16,9 @@ server.use('/api/auth', authRouter);
 server.use('/api/users', usersRouter);
 server.use('/api/comments', protectMe, commentsRouter);
 
+server.get('/', (req, res) => {
+    const newThing = ({ thing: 'a thing', yep: 'sure nuf' })
+    res.status(200).json(newThing)
+})
+
 module.exports = server;
