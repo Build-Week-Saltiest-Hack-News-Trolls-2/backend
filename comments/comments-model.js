@@ -2,13 +2,18 @@ const db = require("../data/dbConfig");
 
 module.exports = {
 	getComments,
+	getSavedComments,
 	getCommentById,
 	createComment,
 	addSavedComment,
 	removeSavedComment,
 };
 
-function getComments(id) {
+function getComments() {
+	return db("comments");
+}
+
+function getSavedComments(id) {
 	return db("comments")
 		.join("user_comments", "comments.id", "user_comments.comment_id")
 		.select(
@@ -27,7 +32,7 @@ function getCommentById(id) {
 function createComment(comment) {
 	return db("comments")
 		.insert(comment, ["id"])
-		.then(([id]) => getCommentById(id)); // getCommentById(id)
+		.then(([id]) => getCommentById(id));
 }
 
 function addSavedComment(user_id, comment_id) {
