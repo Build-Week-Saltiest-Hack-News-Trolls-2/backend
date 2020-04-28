@@ -4,15 +4,15 @@
 These databases create and store user accounts for the app, allow users to see a list of the saltiest comments, and allow users to save, view, and delete favorited comments.
 Tables include: users, comments, faves
 
-##API User Guide
+## **API User Guide**
 |-|
-|[Authentication Routes](#Authentication-Routes)|
-|[Comments Routes](#Comments-Routes)|
+|[Authentication Routes](##Authentication-Routes)|
+|[Comments Routes](##Comments-Routes)|
+|[Users Routes](##Users-Routes)|
 
-###Authentication Routes
-
-#### POST api/users/register - create new user account
-[back to top](#api-user-guide)
+## **Authentication-Routes**
+==========================================================================
+#### POST api/auth/register - create new user account
 Request Schema:
 
 ```javascript
@@ -32,19 +32,18 @@ Response:
 }
 ```
 
-#### POST api/users/login - authenticate user
-[back to top](#api-user-guide)
+#### POST api/auth/login - authenticate user
 Request Schema:
-
+``` javascript
 {
   username: "testinguser1", // string (required), must be unique
   password: "testing123!" // string (required) 
 }
-
+```
 
 Response:
 
-```javascript
+``` javascript
 {
     "user": {
         "id": #,
@@ -56,24 +55,13 @@ Response:
 ```
 
 
-
-#### DELETE api/users/:id - delete account by userID
-[back to top](#api-user-guide)
-
-
-
-###Comments Routes (saved comments are authorized user access only; ds api is public)
+### **Comments Routes** (saved comments are authorized user access only; ds api is public)
 #### GET api/comments - see all comments
 [back to top](#api-user-guide)
-Request Schema:
-Response:
-
-#### GET api/comments/:author - get comments by author username --put into search function instead
-[back to top](#api-user-guide)
+Response: [list of comment objects]
 
 
-#### POST api/comments/faves/:id - save a favorite comment
-[back to top](#api-user-guide)
+#### POST api/comments/faves/ - save a favorite comment to user's faves table
 Request Schema:
 ```javascript
 { 
@@ -85,17 +73,23 @@ Request Schema:
 }
 ```
 
-
 #### GET api/comments/faves - see all favorite comments (this should be the user's list of saved comments)
-[back to top](#api-user-guide)
 Response:[list of comment objects]
 
-#### GET api/comments/faves/:id - see a favorite comment
-[back to top](#api-user-guide)
-Request Schema:
+#### GET api/comments/faves/:commentID - see a favorite comment
+Request Schema: params
 Response: {comment object}
 
-#### DELETE api/comments/faves/:id - delete a favorite comment 
+#### DELETE api/comments/faves/:commentID - delete a favorite comment 
+Request Schema: params
+Response: deleted
+
+## **Users Routes **-- accesses user database
+### GET api/users/:id - see one username by user id
 [back to top](#api-user-guide)
-Request Schema:
-Response:
+Request: params
+Response: { username: "username" }
+
+### DELETE api/users/:id - delete one user by user id
+Request: params
+Response: deleted

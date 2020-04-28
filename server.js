@@ -14,7 +14,9 @@ server.use(express.json());
 
 server.use('/api/auth', authRouter);
 server.use('/api/users', usersRouter);
-server.use('/api/comments', protectMe, commentsRouter);
+server.use('/api/comments',
+//  protectMe,
+ commentsRouter);
 
 server.get('/', (req, res) => {
     const newThing = ({ thing: 'a thing', yep: 'sure nuf' })
