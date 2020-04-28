@@ -45,8 +45,9 @@ router.post("/login", (req, res) => {
 	}
 });
 
-function generateToken({ username }) {
+function generateToken({ id, username }) {
 	const payload = {
+		id,
 		username,
 	};
 

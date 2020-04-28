@@ -6,7 +6,7 @@ exports.up = function (knex) {
 			users.string("password", 255).notNullable();
 		})
 		.createTable("comments", (comments) => {
-			comments.integer("id").notNullable().unique();
+			comments.integer("id").primary().notNullable().unique();
 			comments.string("user", 255).notNullable();
 			comments.text("comment").notNullable();
 			comments.string("sentiment", 255).notNullable();

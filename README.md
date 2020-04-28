@@ -53,12 +53,12 @@ All user routes require valid JWT in auth header
 
 All comment routes require valid JWT in auth header
 
-- `TODO - GET /api/comments`:
+- `GET /api/comments`:
 
   - Returns an array of comments saved by the authenticated user
   - Returns 401 error if not authenticated
 
-- `TODO - POST /api/comments`:
+- `POST /api/comments`:
 
   - Takes a comment object
   - Saves the comment to the authenticated user's list of saved comments
@@ -66,7 +66,7 @@ All comment routes require valid JWT in auth header
   - Returns 401 error if not authenticated
   - Returns 400 error if comment object does not match schema
 
-- `TODO - DELETE /api/comments/:id`:
+- `DELETE /api/comments/:id`:
   - Takes comment id as URL param
   - Removes comment from authenticated user's list of saved comments
   - Returns the deleted comment
