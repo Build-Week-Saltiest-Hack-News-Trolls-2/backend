@@ -59,35 +59,41 @@ Response:
 
 #### DELETE api/users/:id - delete account by userID
 [back to top](#api-user-guide)
-Request Schema:
-Response:
 
 
-###Comments Routes
+
+###Comments Routes (saved comments are authorized user access only; ds api is public)
 #### GET api/comments - see all comments
 [back to top](#api-user-guide)
 Request Schema:
 Response:
 
-#### GET api/comments/:author - get comments by author username
+#### GET api/comments/:author - get comments by author username --put into search function instead
 [back to top](#api-user-guide)
-Request Schema:
-Response:
+
 
 #### POST api/comments/faves/:id - save a favorite comment
 [back to top](#api-user-guide)
 Request Schema:
-Response:
+```javascript
+{ 
+    "commentID": {comment id},  //required, unique,dynamic from save button
+	"author": "comment username", //required
+    "text": "comment content" , //required
+    "saved": true, //required
+    "userID": {user id} //required, dynamic from user info
+}
+```
 
-#### GET api/comments/faves - see all favorite comments
+
+#### GET api/comments/faves - see all favorite comments (this should be the user's list of saved comments)
 [back to top](#api-user-guide)
-Request Schema:
-Response:
+Response:[list of comment objects]
 
 #### GET api/comments/faves/:id - see a favorite comment
 [back to top](#api-user-guide)
 Request Schema:
-Response:
+Response: {comment object}
 
 #### DELETE api/comments/faves/:id - delete a favorite comment 
 [back to top](#api-user-guide)

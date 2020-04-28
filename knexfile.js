@@ -12,7 +12,7 @@ module.exports = {
   staging: {
     client: 'postgresql',
     connection: {
-      database: 'my_db',
+      database: './data/app.db',
       user:     'username',
       password: 'password'
     },
@@ -30,13 +30,17 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: 'pg',
     connection: process.env.DATABASE_URL,
+    pool: {
+      min: 2,
+      max: 10
+    },
     migrations: {
-      directory: "./data/migrations"
+      directory: './migrations'
     },
     seeds: {
-      directory: './data/seeds'
+      directory: './seeds'
     }
   }
 };
