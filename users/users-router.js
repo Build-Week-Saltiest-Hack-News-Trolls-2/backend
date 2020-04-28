@@ -1,14 +1,17 @@
 const router = require('express').Router();
 const Users = require('./users-model.js');
 
-router.get('/', (req, res) => {
-  Users.find()
-    .then(users => {
-      res.json(users);
+//works
+router.get('/:id', (req, res) => {
+    let { id } = req.params
+  Users.findById(id)
+    .then(user => {
+      res.json(user);
     })
     .catch(err => res.send(err));
 });
 
+//works
 router.delete('/:id', (req, res) => {
     const { id } = req.params;
   

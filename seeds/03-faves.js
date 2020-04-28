@@ -1,13 +1,12 @@
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('faves').truncate()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
+      return knex('faves').insert([
+        {faveID: 1, commentID: 242, author: "bob333", text: "this ducks", saved: false, userID: 1},
+        {faveID: 2, commentID: 3283, author: "bob333", text: "blah blah", saved: true, userID: 3}
       ]);
     });
 };

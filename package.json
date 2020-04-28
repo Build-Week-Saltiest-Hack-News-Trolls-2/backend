@@ -20,8 +20,11 @@
   "dependencies": {
     "bcrypt": "^4.0.1",
     "cors": "^2.8.5",
+    "create-react-app": "^3.4.1",
+    "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "helmet": "^3.22.0",
+    "heroku": "^7.39.5",
     "jest": "^25.4.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.0",

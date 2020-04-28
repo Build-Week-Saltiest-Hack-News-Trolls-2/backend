@@ -5,7 +5,7 @@ exports.up = function (knex) {
         tbl.integer("commentID").notNullable();
 		tbl.string("author", 255).notNullable();
         tbl.string("text", 255).notNullable();
-        tbl.boolean("saved").toDefault(true);
+        tbl.boolean("saved").defaultTo(true);
         tbl.integer("userID").notNullable();
 	});
 };

@@ -11,7 +11,6 @@ module.exports = {
   remove
 };
 
-//ALL COMMENTS IN DS DATABASE
 function find() {
   return db('comments')
 }
@@ -22,7 +21,7 @@ function findBy(filter) {
 
 function update (commentID, saved){
     return db('comments')
-      .where({ commentID })
+      .where({ commentID }) 
       .update(saved)
 
 }
