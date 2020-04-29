@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 })
 
 
-
+//works
 router.post('/register', validate, (req, res) => {
     let user = req.body; 
     const rounds = process.env.HASH_ROUNDS || 12;
@@ -33,7 +33,7 @@ router.post('/register', validate, (req, res) => {
       });
   });
 
- 
+//works
 router.post('/login', validate, (req, res) => {
     let { username, password } = req.body;
     Users.findBy({ username })

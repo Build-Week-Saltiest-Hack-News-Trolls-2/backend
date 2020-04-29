@@ -4,7 +4,7 @@ module.exports = {
   find,
   findBy,
   update,
-  // add,
+  add,
   findById,
   save,
   findSaved,
@@ -34,20 +34,23 @@ function findById(commentID) {
 
 
 //SAVED COMMENTS
-function findSaved(userID) {
+function findSaved() {
   return db('faves')
-    .where({userID})
 }
 
-function save(userID, commentID){
-  return db('faves')
-      .insert({ ...userID, commentID: commentID })
+function save(commentID){
+  return db('comments')
+    .where(commentID)
+    .then(comment => {
+      return db('faves')
+      .insert(comment, 'id')
+    })
 }
 
-// function add(comment){
-//   return db('comments')
-//       .insert(comment, 'id')
-// }
+function add(comment){
+  return db('comments')
+    .insert(comment, 'id')
+}
 
 function remove(commentID){
     return db('faves')
