@@ -9,7 +9,7 @@ exports.up = function (knex) {
 			comments.integer("id").primary().notNullable().unique();
 			comments.string("user", 255).notNullable();
 			comments.text("comment").notNullable();
-			comments.string("sentiment", 255).notNullable();
+			comments.decimal("sentiment").notNullable();
 		})
 		.createTable("user_comments", (userComments) => {
 			userComments.increments();
