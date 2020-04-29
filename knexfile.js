@@ -13,10 +13,8 @@ module.exports = {
 		},
 	},
 	testing: {
-		client: "sqlite3",
-		connection: {
-			filename: "./data/test.db3",
-		},
+		client: "pg",
+		connection: "postgres://localhost/shnt_test",
 		useNullAsDefault: true,
 		migrations: {
 			directory: "./data/migrations",
