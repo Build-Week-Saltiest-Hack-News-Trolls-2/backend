@@ -32,28 +32,33 @@ function findById(commentID) {
     .first();
 }
 
+function add(comment){
+  return db('comments')
+    .insert(comment, 'id')
+    .then((id) => {findById(id)})
+}
 
 //SAVED COMMENTS
 function findSaved() {
   return db('faves')
+  .join("faves", "comments.id", "faves.comment_id")
+  .select(
+    "comments.id",
+    "comments.author",
+    "comments.text",
+    "comments.saltiness",
+    "comments.saved"
+  )
 }
 
-function save(commentID){
-  return db('comments')
-    .where(commentID)
-    .then(comment => {
-      return db('faves')
-      .insert(comment, 'id')
-    })
+function save(userID, commentID){
+  return db('faves')
+      .insert(userID, commentID)
 }
 
-function add(comment){
-  return db('comments')
-    .insert(comment, 'id')
-}
-
-function remove(commentID){
+function remove(userID, commentID){
     return db('faves')
-        .where({ commentID })
+        .where({ userID, commentID })
         .del()
+        .then(()=> {return db('faves')})
 }

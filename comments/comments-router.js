@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Comments = require('./comments-model.js');
+const auth = require('../auth/auth-middle');
 
 //get all comments -- works
 router.get('/', (req, res) => {
@@ -10,7 +11,7 @@ router.get('/', (req, res) => {
     .catch(err => res.send(err));
 });
 
-//get all saved comments -- works
+//get all saved comments --
 router.get('/faves', (req, res) => {
     Comments.findSaved()
       .then(faves => {
@@ -20,7 +21,7 @@ router.get('/faves', (req, res) => {
 });
 
 //get a specific comment
-router.get('/:id', commentID, (req, res) => {
+router.get('/:id', commentID, auth, (req, res) => {
     const { id } = req.params;
     Comments.findById(id)
     .then(faves => {
@@ -69,7 +70,7 @@ router.post('/', validateComment, (req, res) => {
 })
 
 //save comment to faves list
-router.post('/faves',  (req, res) => {
+router.post('/faves',  auth, (req, res) => {
     const commentID = req.body;
     Comments.save(commentID)
         .then(() => res.status(201).json(faves))
@@ -85,7 +86,7 @@ router.post('/faves',  (req, res) => {
 
 
 
-router.delete('/faves/:id', commentID, (req, res) => {
+router.delete('/faves/:id', commentID, auth, (req, res) => {
     const { id } = req.params;
   
     Comments.remove(id)

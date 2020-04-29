@@ -6,21 +6,21 @@ module.exports = {
     useNullAsDefault: true,
     connection: {
       filename: './data/app.db3'
-    }
+    },
+    migrations: {
+			directory: './data/migrations',
+		},
+		seeds: {
+			directory: './data/seeds',
+		}
   },
 
-  staging: {
-    client: 'postgresql',
+  testing: {
+    client: 'postgressqlite3ql',
     connection: {
-      database: './data/app.db',
-      user:     'username',
-      password: 'password'
+      database: './data/test.db',
     },
-    pool: {
-      afterCreate: (conn, done) => {
-        conn.run('PRAGMA foreign_keys = ON', done);
-      }
-    },
+    useNullAsDefault: true,
     migrations: {
       directory: './data/migrations'
     },
@@ -32,15 +32,11 @@ module.exports = {
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL || './data/app.db',
-    pool: {
-      min: 2,
-      max: 10
-    },
     migrations: {
-      directory: './migrations'
+      directory: './data/migrations'
     },
     seeds: {
-      directory: './seeds'
+      directory: './data/seeds'
     }
   }
 };

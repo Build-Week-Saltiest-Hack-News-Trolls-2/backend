@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const Users = require('./auth-model');
-const jwt = require('jsonwebtoken')
-const { jwtSecret } = require('./secrets')
+const Auth = require('./auth-model');
+const jwt = require('jsonwebtoken');
+const secrets = require('./secrets');
 
-
+//works
 router.get('/', (req, res) => {
-  Users.get()
+  Auth.get()
   .then(users => {
     res.status(200).json(users);
   })
@@ -23,7 +23,7 @@ router.post('/register', validate, (req, res) => {
     const rounds = process.env.HASH_ROUNDS || 12;
     const hash = bcrypt.hashSync(user.password, rounds);
     user.password = hash;
-    Users.add(user)
+    Auth.add(user)
       .then(saved => {
         res.status(201).json(saved);
       })
@@ -36,14 +36,14 @@ router.post('/register', validate, (req, res) => {
 //works
 router.post('/login', validate, (req, res) => {
     let { username, password } = req.body;
-    Users.findBy({ username })
+    Auth.findBy({ username })
       .first()
       .then((user) => {
         if (user && bcrypt.compareSync(password, user.password)) {
             const token = makeToken(user)
-          res.status(200).json({ user, token});
-        } 
-        else {
+            res.status(200).json({
+              message: `Welcome ${user.username}!, have a token...`, token});
+        } else {
           res.status(401).json({ message: "Invalid login" });
         }
       })
@@ -63,14 +63,14 @@ router.post('/login', validate, (req, res) => {
 
   function makeToken (user) {
     const payload = {
-      id: user.id,
+      subject: user.id,
       username: user.username,
       user_type: user.user_type
     }
     const options = {
-      expiresIn: '1h'
+      expiresIn: '2h'
     }
-    return jwt.sign(payload, jwtSecret, options)
+    return jwt.sign(payload, secrets.jwtSecret, options)
   }
 
 module.exports = router;
