@@ -9,17 +9,18 @@ module.exports = {
   remove,
 };
 
-
+//works
 function get() {
   return db('users');
 };
 
+//works
 function findBy( filter ) {
   return db( 'users' )
     .where ( filter  );
 }
 
-
+//works
 function add(user) {
   return db('users')
     .insert(user)
@@ -28,7 +29,7 @@ function add(user) {
     });
 };
 
-//not required
+//works
 function remove(id) {
   return db('users')
     .where('id', id)

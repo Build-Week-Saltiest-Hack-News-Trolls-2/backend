@@ -1,9 +1,10 @@
 const router = require('express').Router();
 const Comments = require('./comments-model.js');
-const auth = require('../auth/auth-middle');
+// const auth = require('../auth/auth-middle'); <--not working
 
 //get all comments -- works
 router.get('/', (req, res) => {
+    console.log("token", req.decodedToken);
   Comments.find()
     .then(faves => {
       res.json(faves)
@@ -13,23 +14,21 @@ router.get('/', (req, res) => {
 
 //get all saved comments --
 router.get('/faves', (req, res) => {
-    Comments.findSaved()
-      .then(faves => {
-        res.json(faves);
-      })
-      .catch(err => res.send(err))
+    const { id } = req.decodedToken;
+	Comments.findSaved(id)
+		.then((comments) => res.status(200).json(comments))
+		.catch((err) => {
+			console.log(err);
+			res.status(500).json({ error: err.message });
+		});
 });
 
 //get a specific comment
-router.get('/:id', commentID, auth, (req, res) => {
+router.get('/:id', commentID, (req, res) => {
     const { id } = req.params;
     Comments.findById(id)
     .then(faves => {
-        if (faves) {
-            res.json(faves);
-        } else {
-            res.status(404).json({ message: 'Could not find the comment with given id.' })
-        }
+        res.json(faves);
     })
     .catch(err => {
         console.log(err)
@@ -70,23 +69,19 @@ router.post('/', validateComment, (req, res) => {
 })
 
 //save comment to faves list
-router.post('/faves',  auth, (req, res) => {
+router.post('/faves', (req, res) => {
     const commentID = req.body;
-    Comments.save(commentID)
+    Comments.save(userID, commentID)
         .then(() => res.status(201).json(faves))
         .catch((err) => {
             console.log(err);
             res.status(500).json({ error: err.message });
         })
-    .catch (err => {
-        console.log(err)
-        res.status(500).json({ message: 'Failed to create new comment relationship' });
-    })
 })
 
 
 
-router.delete('/faves/:id', commentID, auth, (req, res) => {
+router.delete('/faves/:id', commentID, (req, res) => {
     const { id } = req.params;
   
     Comments.remove(id)
@@ -122,6 +117,7 @@ function commentID (req, res, next) {
                 res.status(400).json({ message: 'comment does not exist' })
             }
         })
+        next();
 }
 
 // function updateComment (req, res, next) {

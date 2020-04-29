@@ -23,42 +23,41 @@ function update (commentID, saved){
     return db('comments')
       .where({ commentID }) 
       .update(saved)
-
-}
+};
 
 function findById(commentID) {
   return db('comments')
-    .where({ commentID })
+    .where( 'commentID', commentID )
     .first();
 }
 
 function add(comment){
   return db('comments')
-    .insert(comment, 'id')
-    .then((id) => {findById(id)})
-}
+    .insert(comment)
+    .then(comment => {
+      return(comment)
+    });
+};
 
 //SAVED COMMENTS
 function findSaved() {
   return db('faves')
-  .join("faves", "comments.id", "faves.comment_id")
-  .select(
-    "comments.id",
-    "comments.author",
-    "comments.text",
-    "comments.saltiness",
-    "comments.saved"
-  )
-}
+      // .join("faves", "comments.id", "faves.commentID")
+      .select(
+        "comments.ID",
+        "comments.author",
+        "comments.text",
+        "comments.saltiness"
+      )
+  }
 
 function save(userID, commentID){
-  return db('faves')
-      .insert(userID, commentID)
-}
+    return db("faves").insert({ userID, commentID });
+  }
 
 function remove(userID, commentID){
     return db('faves')
-        .where({ userID, commentID })
-        .del()
-        .then(()=> {return db('faves')})
+		.where({ userID, commentID })
+		.del()
+		.then(() => findById({ id: commentID }));
 }

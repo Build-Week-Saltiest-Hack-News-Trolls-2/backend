@@ -8,7 +8,9 @@ router.get('/:id', (req, res) => {
     .then(user => {
       res.json(user);
     })
-    .catch(err => res.send(err));
+    .catch(err => {
+        res.status(500).json({ message: "Failted to find user "})
+    });
 });
 
 //works
