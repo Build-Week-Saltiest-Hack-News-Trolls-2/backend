@@ -1,8 +1,9 @@
 const router = require("express").Router();
 
 const Comments = require("./comments-model");
+const authMiddleware = require("../auth/auth-middleware");
 
-router.get("/", (req, res) => {
+router.get("/", authMiddleware, (req, res) => {
 	const { id } = req.decodedToken;
 
 	Comments.getSavedComments(id)
@@ -22,7 +23,7 @@ router.get("/all", (req, res) => {
 		});
 });
 
-router.post("/", (req, res) => {
+router.post("/", authMiddleware, (req, res) => {
 	const comment = req.body;
 	const user = req.decodedToken;
 
@@ -57,7 +58,7 @@ router.post("/", (req, res) => {
 	}
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", authMiddleware, (req, res) => {
 	const user = req.decodedToken;
 
 	Comments.removeSavedComment(user.id, req.params.id)

@@ -51,13 +51,12 @@ All user routes require valid JWT in auth header
 
 **Comments**
 
-All comment routes require valid JWT in auth header
+Comment routes other than /all require valid JWT in auth header
 
 - `GET /api/comments/all`:
 
   - Not a replacement for DS API, just sample data until we can access theirs
   - Returns an array of all comments saved to backend
-  - Returns 401 error if not authenticated
 
 - `GET /api/comments`:
 
