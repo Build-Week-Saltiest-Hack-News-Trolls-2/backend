@@ -1,7 +1,7 @@
   
 exports.up = function (knex) {
 	return knex.schema.createTable("faves", tbl => {
-        tbl.increments("faveID");
+        tbl.increments();
         tbl.integer("commentID")
             .unique()
             .notNullable()
@@ -27,6 +27,9 @@ exports.up = function (knex) {
         //     .inTable('comments')
         //     .onUpdate('CASCADE')
         //     .onDelete('CASCADE');
+        tbl.integer("userID")
+            .references('id')
+            .inTable('users');
         tbl.boolean("saved")
             .defaultTo(true);
 	});

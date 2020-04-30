@@ -19,7 +19,7 @@ describe('POST /', () =>{
         expect(201);
         done();
     });
-    it("Should login", async done => {
+    it("Should login user", async done => {
         const res = await request(server).post('/api/auth/login').send({
         username: "katrina1",
         password: "katrina1"

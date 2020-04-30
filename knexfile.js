@@ -4,11 +4,9 @@ module.exports = {
   development: {
     client: 'sqlite3',
     useNullAsDefault: true,
-    connection: {
-      filename: './data/app.db3'
-    },
+    connection:  "./data/app.db3",
     migrations: {
-			directory: './data/migrations',
+      directory: './data/migrations',
 		},
 		seeds: {
 			directory: './data/seeds',
@@ -16,9 +14,9 @@ module.exports = {
   },
 
   testing: {
-    client: 'postgressqlite3ql',
+    client: 'sqlite3',
     connection: {
-      database: './data/test.db',
+      filename: './data/test.db3', 
     },
     useNullAsDefault: true,
     migrations: {
