@@ -1,6 +1,7 @@
 const server = require("./server");
 const request = require("supertest");
 
+
 describe('GET /', () => {
     it('returns 200', () => {
         return request(server).get('/api/auth')
