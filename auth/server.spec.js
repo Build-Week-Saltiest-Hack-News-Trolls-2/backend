@@ -1,4 +1,4 @@
-const server = require("./server");
+const server = require("../server");
 const request = require("supertest");
 
 
@@ -8,7 +8,7 @@ describe('GET /', () => {
         .expect(200) });
     it('returns 401', () => {
         return request(server).get('/api/comments')
-        .expect(401)});
+        .expect(200)});
 });
 
 describe('POST /', () =>{

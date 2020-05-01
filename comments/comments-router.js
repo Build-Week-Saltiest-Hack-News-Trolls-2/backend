@@ -71,10 +71,10 @@ router.post('/', validateComment, (req, res) => {
 
 //save comment to faves list
 router.post('/faves', auth, (req, res) => {
-    const commentID = req.body;
+    const commentID = req.body.commentID;
     const { id } = req.decodedToken;
     Comments.save(id, commentID)
-        .then(() => res.status(201).json(faves))
+        .then(() => res.status(201).json(comment))
         .catch((err) => {
             console.log(err);
             res.status(500).json({ error: err.message });

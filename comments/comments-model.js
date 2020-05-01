@@ -49,20 +49,25 @@ function findSaved(id) {
   //     )
   }
 
-function save(userID, commentID){
-    return db("faves")
-    .join("faves", "comments.id", "faves.commentID")
-      .select(
-        "comments.ID",
-        "comments.author",
-        "comments.text",
-        "comments.saltiness"
-      )
-      .where({ userID : id })
+function save(id, comment){
+    return db("faves as f")
+    // .join("users as u", "f.userID", "u.id")
+      // .select(
+      //   "comments.ID",
+      //   "comments.author",
+      //   "comments.text",
+      //   "comments.saltiness"
+      // )
+      // .where( "u.id", id )
+      .insert(comment)
+      .then(comment => {
+        return(comment)
+      })
   }
 
-function remove(userID, commentID){
+function remove(id, commentID){
     return db("faves")
+    .join("users as u", "f.userID", "u.id")
 		.where({ userID, commentID })
 		.del()
 		.then(() => findById({ id: commentID }));
